@@ -50,7 +50,8 @@ public class BrokerListenerServiceImpl implements BrokerListenerService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
 		HttpEntity<Event> request = new HttpEntity<>(event, headers);
-		ResponseEntity<Event> responseEntity = restTemplate.exchange(endpointURI, HttpMethod.POST, request, Event.class);
+		String path = endpointURI + "/saveEvent";
+		ResponseEntity<Event> responseEntity = restTemplate.exchange(path, HttpMethod.POST, request, Event.class);
 		
 		if (responseEntity.getStatusCode().equals(HttpStatus.CREATED)) {
 			log.info("BrokerListenerServiceImpl:saveEvent() - Event sent to EventoWS API with successfull!");

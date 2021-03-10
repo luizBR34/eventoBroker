@@ -1,0 +1,18 @@
+server:
+    port: 8888
+
+spring:
+    autoconfigure:
+        exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: eventoapp
+        password: segredo
+
+evento:
+    broker:
+        queue: eventoapp-integration-queue
+eventows:
+    endpoint:
+        uri: http://localhost:9090/eventoWS
