@@ -13,6 +13,7 @@ spring:
 evento:
     broker:
         queue: eventoapp-integration-queue
+        exchange: eventoapp.integration.exchange
 eventows:
     endpoint:
         uri: http://localhost:9090/eventoWS
