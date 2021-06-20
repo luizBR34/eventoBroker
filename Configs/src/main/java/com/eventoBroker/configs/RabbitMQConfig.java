@@ -2,6 +2,7 @@ package com.eventoBroker.configs;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
@@ -28,6 +29,9 @@ public class RabbitMQConfig {
 	
 	@Value("${spring.rabbitmq.host}")
 	String rabbitHost;
+	
+	@Value("${spring.rabbitmq.port}")
+	int rabbitPort;
 
 	@Value("${spring.rabbitmq.username}")
 	String username;
@@ -60,6 +64,7 @@ public class RabbitMQConfig {
 	public ConnectionFactory connectionFactory() {
 	    CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
 	    connectionFactory.setHost(rabbitHost);
+	    connectionFactory.setPort(rabbitPort);
 	    connectionFactory.setUsername(username);
 	    connectionFactory.setPassword(password);
 	    return connectionFactory;
