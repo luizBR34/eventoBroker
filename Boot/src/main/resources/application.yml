@@ -2,18 +2,27 @@ server:
     port: 8888
 
 spring:
+    thymeleaf:
+        enabled: false
     autoconfigure:
         exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
     rabbitmq:
-        host: localhost
-        port: 5672
-        username: eventoapp
-        password: segredo
+        #host: localhost
+        host: ${RABBITMQ_HOST}
+        #port: 5672
+        port: ${RABBITMQ_PORT}
+        #username: eventoapp
+        username: ${RABBITMQ_USERNAME}
+        #password: segredo
+        password: ${RABBITMQ_PASSWORD}
 
 evento:
     broker:
-        queue: eventoapp-integration-queue
-        exchange: eventoapp.integration.exchange
+        #queue: eventoapp-integration-queue
+        queue: ${EVENTO_APP_QUEUE}
+        #exchange: eventoapp.integration.exchange
+        exchange: ${RESPONSE_EXCHANGE}
 eventows:
     endpoint:
-        uri: http://localhost:9090/eventoWS
+        #uri: http://localhost:9090/eventoWS
+        uri: ${EVENTO_WS_URI}/eventoWS

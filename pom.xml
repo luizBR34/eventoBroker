@@ -15,7 +15,6 @@
 		<system.version>0.0.1-SNAPSHOT</system.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
 	
 	<dependencyManagement>
@@ -45,10 +44,95 @@
 				<artifactId>services</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
-	
+
+	<build>
+		<finalName>eventobroker</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<!--JIB PLUGIN TO BUILD DOCKER IMAGES ON THE MAVEN BUILD-->
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>1.6.1</version>
+				<configuration>
+					<from>
+						<image>openjdk:alpine</image>
+					</from>
+					<to>
+						<image>luizpovoa/eventobroker</image>
+						<tags>
+							<tag>${project.version}</tag>
+						</tags>
+					</to>
+					<container>
+						<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+						<jvmFlags>
+							<jvmFlag>-Xms512m</jvmFlag>
+						</jvmFlags>
+						<mainClass>com.eventoBroker.boot.EventoBrokerApplication</mainClass>
+						<ports>
+							<port>8888</port>
+						</ports>
+					</container>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>dockerBuild</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--TO USE WIYH DOCKERFILE ONLY - START-->
+			<!--			<plugin>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-maven-plugin</artifactId>
+                            <version>2.6.3</version>
+                            <configuration>
+                                <mainClass>com.eventoBroker.boot.EventoBrokerApplication</mainClass>
+                                <layout>JAR</layout>
+                                <executable>false</executable>
+                                <layers>
+                                    <enabled>true</enabled>
+                                </layers>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>repackage</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>-->
+			<!--TO USE WIYH DOCKERFILE ONLY - END-->
+		</plugins>
+	</build>
+
+	<!--TO USE WIYH DOCKERFILE ONLY - START-->
+	<!--	<pluginRepositories>
+            <pluginRepository>
+                <id>spring-snapshots</id>
+                <url>https://repo.spring.io/snapshot</url>
+            </pluginRepository>
+            <pluginRepository>
+                <id>spring-milestones</id>
+                <url>https://repo.spring.io/milestone</url>
+            </pluginRepository>
+        </pluginRepositories>-->
+	<!--TO USE WIYH DOCKERFILE ONLY - END-->
+
 	<modules>
 		<module>boot</module>
 		<module>configs</module>
